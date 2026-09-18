@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>CyberTrace AI | Digital Intelligence Platform</title>
+
+<link rel="stylesheet" href="css/style.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- Background -->
+<div class="background-grid"></div>
+
+<!-- Header -->
+<header class="topbar">
+
+    <div class="brand">
+        <div class="brand-icon">⌬</div>
+
+        <div>
+            <h1>CyberTrace <span>AI</span></h1>
+            <p>Digital Identity & OSINT Intelligence</p>
+        </div>
+    </div>
+
+    <div class="system-status">
+        <span class="status-dot"></span>
+        SYSTEM READY
+    </div>
+
+</header>
+
+
+<!-- Main -->
+<main class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+
+        <div class="hero-badge">
+            CYBERSECURITY INTELLIGENCE PLATFORM
+        </div>
+
+        <h2>
+            Investigate Digital
+            <span>Identities</span>
+        </h2>
+
+        <p>
+            Analyze publicly available information and correlate
+            digital indicators to build an intelligence profile.
+        </p>
+
+    </section>
+
+
+    <!-- Investigation Panel -->
+    <section class="investigation-card">
+
+        <div class="card-header">
+
+            <div>
+                <h3>Start Investigation</h3>
+
+                <p>
+                    Select an investigation type and provide the target identifier.
+                </p>
+            </div>
+
+            <div class="live-indicator">
+                <span></span>
+                OSINT ENGINE
+            </div>
+
+        </div>
+
+
+        <!-- Investigation Types -->
+        <div class="investigation-types">
+
+            <button class="type-btn active" data-type="phone">
+                <span class="type-icon">📱</span>
+
+                <div>
+                    <strong>Phone Number</strong>
+                    <small>Analyze phone intelligence</small>
+                </div>
+            </button>
+
+
+            <button class="type-btn" data-type="email">
+                <span class="type-icon">📧</span>
+
+                <div>
+                    <strong>Email Address</strong>
+                    <small>Analyze email exposure</small>
+                </div>
+            </button>
+
+
+            <button class="type-btn" data-type="username">
+                <span class="type-icon">👤</span>
+
+                <div>
+                    <strong>Username</strong>
+                    <small>Discover public profiles</small>
+                </div>
+            </button>
+
+
+            <button class="type-btn" data-type="domain">
+                <span class="type-icon">🌐</span>
+
+                <div>
+                    <strong>Domain</strong>
+                    <small>Analyze domain intelligence</small>
+                </div>
+            </button>
+
+        </div>
+
+
+        <!-- Input -->
+        <div class="input-section">
+
+            <label id="targetLabel">
+                PHONE NUMBER
+            </label>
+
+            <div class="input-wrapper">
+
+                <input
+                    id="targetInput"
+                    type="text"
+                    placeholder="+970 59 XXX XXXX"
+                    autocomplete="off"
+                >
+
+                <button id="clearBtn" class="clear-btn">
+                    ×
+                </button>
+
+            </div>
+
+            <div class="input-info">
+                <span>🔐</span>
+                Only publicly available information will be analyzed.
+            </div>
+
+        </div>
+
+
+        <!-- Start -->
+        <button id="startInvestigation" class="investigate-btn">
+
+            <span>🔎</span>
+
+            START INVESTIGATION
+
+            <span class="arrow">→</span>
+
+        </button>
+
+    </section>
+
+
+    <!-- Processing -->
+    <section id="processingPanel" class="processing-card hidden">
+
+        <div class="processing-header">
+
+            <div class="spinner"></div>
+
+            <div>
+                <h3>Investigation in progress</h3>
+                <p id="processingStatus">
+                    Initializing intelligence engine...
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="pipeline">
+
+            <div class="pipeline-step active">
+                <span>01</span>
+                <p>Collecting public information</p>
+            </div>
+
+            <div class="pipeline-step">
+                <span>02</span>
+                <p>Correlating digital identities</p>
+            </div>
+
+            <div class="pipeline-step">
+                <span>03</span>
+                <p>Analyzing geographic indicators</p>
+            </div>
+
+            <div class="pipeline-step">
+                <span>04</span>
+                <p>Checking exposure indicators</p>
+            </div>
+
+            <div class="pipeline-step">
+                <span>05</span>
+                <p>Calculating confidence</p>
+            </div>
+
+            <div class="pipeline-step">
+                <span>06</span>
+                <p>Generating intelligence report</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Results -->
+    <section id="resultsPanel" class="results-section hidden">
+
+        <div class="results-header">
+
+            <div>
+                <div class="result-badge">
+                    INVESTIGATION COMPLETE
+                </div>
+
+                <h2>Intelligence Report</h2>
+
+                <p id="investigatedTarget"></p>
+            </div>
+
+            <div class="confidence-box">
+
+                <span>CONFIDENCE</span>
+
+                <strong id="confidenceScore">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- Geographic Intelligence -->
+        <div class="result-card">
+
+            <div class="result-card-header">
+                <h3>📍 Geographic Intelligence</h3>
+
+                <span id="locationConfidence">
+                    Awaiting analysis
+                </span>
+            </div>
+
+            <div class="location-result">
+
+                <div class="location-main">
+
+                    <span class="location-icon">
+                        🌍
+                    </span>
+
+                    <div>
+                        <small>PUBLICLY INDICATED LOCATION</small>
+
+                        <h2 id="locationResult">
+                            No location identified
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="location-note">
+
+                    Location results are derived from
+                    publicly available indicators and may
+                    represent an approximate or previously
+                    published location.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Identity -->
+        <div class="result-grid">
+
+            <div class="result-card">
+
+                <div class="result-card-header">
+                    <h3>👤 Identity Indicators</h3>
+                </div>
+
+                <div id="identityResults" class="result-list">
+
+                    <div class="empty-result">
+                        No verified identity indicators found.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Social -->
+            <div class="result-card">
+
+                <div class="result-card-header">
+                    <h3>🌐 Public Social Presence</h3>
+                </div>
+
+                <div id="socialResults" class="result-list">
+
+                    <div class="empty-result">
+                        No public profiles identified.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Exposure -->
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <h3>🚨 Digital Exposure</h3>
+
+                <span id="riskLevel">
+                    UNKNOWN
+                </span>
+
+            </div>
+
+            <div class="exposure-grid">
+
+                <div>
+                    <span>Public Sources</span>
+                    <strong id="sourceCount">0</strong>
+                </div>
+
+                <div>
+                    <span>Exposure Indicators</span>
+                    <strong id="exposureCount">0</strong>
+                </div>
+
+                <div>
+                    <span>Risk Level</span>
+                    <strong id="riskValue">UNKNOWN</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Sources -->
+        <div class="result-card">
+
+            <div class="result-card-header">
+                <h3>📚 Intelligence Sources</h3>
+            </div>
+
+            <div id="sourcesResults" class="sources-list">
+
+                <div class="empty-result">
+                    No sources available.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Report Actions -->
+        <div class="report-actions">
+
+            <button id="newInvestigation" class="secondary-btn">
+                + NEW INVESTIGATION
+            </button>
+
+            <button id="generateReport" class="primary-btn">
+                📄 GENERATE REPORT
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- Footer -->
+<footer>
+
+    <p>
+        CyberTrace AI © 2026
+    </p>
+
+    <span>
+        Digital Intelligence • OSINT • Cybersecurity
+    </span>
+
+</footer>
+
+
+<script src="js/app.js"></script>
+```
+
+</body>
+</html>
