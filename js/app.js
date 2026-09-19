@@ -1,13 +1,24 @@
+
+هذه العلامات دخلت إلى ملف JavaScript نفسه، ولذلك المتصفح يتوقف عن تنفيذ `app.js` بسبب **Syntax Error**. :contentReference[oaicite:0]{index=0}
+
+### الحل — لا نغير أي شيء آخر
+
+افتح:
+
+`js` → `app.js` → **Edit ✏️**
+
+ثم احذف **كل محتوى الملف** وضع هذا الكود بدلًا منه:
+
+```javascript
 const typeButtons = document.querySelectorAll(".type-btn");
+
 const targetInput = document.getElementById("targetInput");
 const targetLabel = document.getElementById("targetLabel");
 const clearBtn = document.getElementById("clearBtn");
-
 const startButton = document.getElementById("startInvestigation");
 
 const processingPanel = document.getElementById("processingPanel");
 const resultsPanel = document.getElementById("resultsPanel");
-
 const processingStatus = document.getElementById("processingStatus");
 
 const investigatedTarget = document.getElementById("investigatedTarget");
@@ -32,332 +43,298 @@ const generateReport = document.getElementById("generateReport");
 let selectedType = "phone";
 
 const investigationConfig = {
-phone: {
-label: "PHONE NUMBER",
-placeholder: "+970 59 XXX XXXX"
-},
+    phone: {
+        label: "PHONE NUMBER",
+        placeholder: "+970 59 XXX XXXX"
+    },
 
-```
-email: {
-    label: "EMAIL ADDRESS",
-    placeholder: "example@email.com"
-},
+    email: {
+        label: "EMAIL ADDRESS",
+        placeholder: "example@email.com"
+    },
 
-username: {
-    label: "USERNAME",
-    placeholder: "example_username"
-},
+    username: {
+        label: "USERNAME",
+        placeholder: "example_username"
+    },
 
-domain: {
-    label: "DOMAIN",
-    placeholder: "example.com"
-}
-```
-
+    domain: {
+        label: "DOMAIN",
+        placeholder: "example.com"
+    }
 };
 
+
 /* =========================
-INVESTIGATION TYPE
+   INVESTIGATION TYPE
 ========================= */
 
 typeButtons.forEach(button => {
 
-```
-button.addEventListener("click", () => {
+    button.addEventListener("click", () => {
 
-    typeButtons.forEach(btn => {
-        btn.classList.remove("active");
+        typeButtons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        selectedType = button.dataset.type;
+
+        const config = investigationConfig[selectedType];
+
+        targetLabel.textContent = config.label;
+        targetInput.placeholder = config.placeholder;
+        targetInput.value = "";
+
+        resultsPanel.classList.add("hidden");
+        processingPanel.classList.add("hidden");
     });
 
-    button.classList.add("active");
-
-    selectedType = button.dataset.type;
-
-    const config = investigationConfig[selectedType];
-
-    targetLabel.textContent = config.label;
-    targetInput.placeholder = config.placeholder;
-
-    targetInput.value = "";
-
-    resultsPanel.classList.add("hidden");
-    processingPanel.classList.add("hidden");
 });
-```
 
-});
 
 /* =========================
-CLEAR INPUT
+   CLEAR INPUT
 ========================= */
 
 clearBtn.addEventListener("click", () => {
-targetInput.value = "";
-targetInput.focus();
+
+    targetInput.value = "";
+    targetInput.focus();
+
 });
 
+
 /* =========================
-START INVESTIGATION
+   START INVESTIGATION
 ========================= */
 
 startButton.addEventListener("click", startInvestigation);
 
 targetInput.addEventListener("keydown", event => {
 
-```
-if (event.key === "Enter") {
-    startInvestigation();
-}
-```
+    if (event.key === "Enter") {
+        startInvestigation();
+    }
 
 });
 
+
 async function startInvestigation() {
 
-```
-const target = targetInput.value.trim();
+    const target = targetInput.value.trim();
 
-if (!target) {
+    if (!target) {
 
-    targetInput.focus();
+        targetInput.focus();
 
-    targetInput.style.borderColor = "#ff647c";
+        targetInput.style.borderColor = "#ff647c";
 
-    setTimeout(() => {
-        targetInput.style.borderColor = "";
-    }, 1200);
+        setTimeout(() => {
+            targetInput.style.borderColor = "";
+        }, 1200);
 
-    return;
+        return;
+    }
+
+    resultsPanel.classList.add("hidden");
+    processingPanel.classList.remove("hidden");
+
+    startButton.disabled = true;
+
+    await runInvestigationPipeline(target);
+
+    startButton.disabled = false;
 }
 
-resultsPanel.classList.add("hidden");
-processingPanel.classList.remove("hidden");
-
-startButton.disabled = true;
-
-await runInvestigationPipeline(target);
-
-startButton.disabled = false;
-```
-
-}
 
 /* =========================
-INVESTIGATION PIPELINE
+   INVESTIGATION PIPELINE
 ========================= */
 
 async function runInvestigationPipeline(target) {
 
-```
-const steps = [
-    "Collecting publicly available information...",
-    "Correlating digital identity indicators...",
-    "Analyzing geographic indicators...",
-    "Checking digital exposure indicators...",
-    "Calculating confidence level...",
-    "Generating intelligence report..."
-];
+    const steps = [
+        "Collecting publicly available information...",
+        "Correlating digital identity indicators...",
+        "Analyzing geographic indicators...",
+        "Checking digital exposure indicators...",
+        "Calculating confidence level...",
+        "Generating intelligence report..."
+    ];
 
-const pipelineSteps = document.querySelectorAll(".pipeline-step");
+    const pipelineSteps =
+        document.querySelectorAll(".pipeline-step");
 
-pipelineSteps.forEach(step => {
-    step.classList.remove("active");
-});
-
-for (let i = 0; i < steps.length; i++) {
-
-    processingStatus.textContent = steps[i];
-
-    pipelineSteps.forEach((step, index) => {
-
-        step.classList.toggle(
-            "active",
-            index <= i
-        );
-
+    pipelineSteps.forEach(step => {
+        step.classList.remove("active");
     });
 
-    await wait(650);
+    for (let i = 0; i < steps.length; i++) {
+
+        processingStatus.textContent = steps[i];
+
+        pipelineSteps.forEach((step, index) => {
+
+            step.classList.toggle(
+                "active",
+                index <= i
+            );
+
+        });
+
+        await wait(650);
+    }
+
+    showDemoResults(target);
 }
 
-showDemoResults(target);
-```
-
-}
 
 /* =========================
-DEMO RESULT ENGINE
+   DEMO RESULTS
 ========================= */
 
 function showDemoResults(target) {
 
-```
-/*
-    IMPORTANT:
+    investigatedTarget.textContent =
+        `${formatType(selectedType)} investigation: ${target}`;
 
-    These are demonstration results only.
+    const demoConfidence =
+        calculateDemoConfidence(target);
 
-    The real intelligence engine will later
-    connect the frontend to the CyberTrace AI
-    backend and external/public data sources.
-
-    No private location, GPS or hidden data
-    is being accessed here.
-*/
-
-investigatedTarget.textContent =
-    `${formatType(selectedType)} investigation: ${target}`;
-
-const demoConfidence = calculateDemoConfidence(target);
-
-confidenceScore.textContent =
-    `${demoConfidence}%`;
+    confidenceScore.textContent =
+        `${demoConfidence}%`;
 
 
-/* Geographic result */
+    /* Geographic */
 
-locationResult.textContent =
-    "Awaiting verified public indicators";
+    locationResult.textContent =
+        "Awaiting verified public indicators";
 
-locationConfidence.textContent =
-    "NO VERIFIED LOCATION";
-
-
-/* Identity */
-
-identityResults.innerHTML = `
-    <div class="empty-result">
-        Identity correlation will be performed by the backend intelligence engine.
-    </div>
-`;
+    locationConfidence.textContent =
+        "NO VERIFIED LOCATION";
 
 
-/* Social */
+    /* Identity */
 
-socialResults.innerHTML = `
-    <div class="empty-result">
-        Public profile discovery will be connected to the OSINT engine.
-    </div>
-`;
-
-
-/* Exposure */
-
-sourceCount.textContent = "0";
-exposureCount.textContent = "0";
-
-riskValue.textContent = "PENDING";
-riskLevel.textContent = "PENDING";
+    identityResults.innerHTML = `
+        <div class="empty-result">
+            Identity correlation will be performed
+            by the backend intelligence engine.
+        </div>
+    `;
 
 
-/* Sources */
+    /* Social */
 
-sourcesResults.innerHTML = `
-    <div class="empty-result">
-        No live intelligence sources have been queried yet.
-    </div>
-`;
+    socialResults.innerHTML = `
+        <div class="empty-result">
+            Public profile discovery will be connected
+            to the OSINT engine.
+        </div>
+    `;
 
 
-processingPanel.classList.add("hidden");
+    /* Exposure */
 
-resultsPanel.classList.remove("hidden");
+    sourceCount.textContent = "0";
+    exposureCount.textContent = "0";
 
-window.scrollTo({
-    top: resultsPanel.offsetTop - 30,
-    behavior: "smooth"
-});
-```
+    riskValue.textContent = "PENDING";
+    riskLevel.textContent = "PENDING";
 
+
+    /* Sources */
+
+    sourcesResults.innerHTML = `
+        <div class="empty-result">
+            No live intelligence sources have been queried yet.
+        </div>
+    `;
+
+
+    processingPanel.classList.add("hidden");
+    resultsPanel.classList.remove("hidden");
+
+    window.scrollTo({
+        top: resultsPanel.offsetTop - 30,
+        behavior: "smooth"
+    });
 }
 
+
 /* =========================
-DEMO CONFIDENCE
+   DEMO CONFIDENCE
 ========================= */
 
 function calculateDemoConfidence(target) {
 
-```
-/*
-    This is NOT a real confidence score.
+    let hash = 0;
 
-    It only creates a visual placeholder
-    until the backend intelligence engine
-    is implemented.
-*/
+    for (let i = 0; i < target.length; i++) {
+        hash += target.charCodeAt(i) * (i + 1);
+    }
 
-let hash = 0;
-
-for (let i = 0; i < target.length; i++) {
-    hash += target.charCodeAt(i) * (i + 1);
+    return 55 + (hash % 31);
 }
 
-return 55 + (hash % 31);
-```
-
-}
 
 /* =========================
-NEW INVESTIGATION
+   NEW INVESTIGATION
 ========================= */
 
 newInvestigation.addEventListener("click", () => {
 
-```
-targetInput.value = "";
+    targetInput.value = "";
 
-resultsPanel.classList.add("hidden");
-processingPanel.classList.add("hidden");
+    resultsPanel.classList.add("hidden");
+    processingPanel.classList.add("hidden");
 
-targetInput.focus();
+    targetInput.focus();
 
-window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-});
-```
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 });
+
 
 /* =========================
-GENERATE REPORT
+   GENERATE REPORT
 ========================= */
 
 generateReport.addEventListener("click", () => {
 
-```
-alert(
-    "Report generation will be connected to the CyberTrace AI reporting engine in the next development stage."
-);
-```
+    alert(
+        "Report generation will be connected to the CyberTrace AI reporting engine in the next development stage."
+    );
 
 });
 
+
 /* =========================
-HELPERS
+   HELPERS
 ========================= */
 
 function formatType(type) {
 
-```
-const names = {
-    phone: "Phone",
-    email: "Email",
-    username: "Username",
-    domain: "Domain"
-};
+    const names = {
+        phone: "Phone",
+        email: "Email",
+        username: "Username",
+        domain: "Domain"
+    };
 
-return names[type] || "Digital Identity";
-```
-
+    return names[type] || "Digital Identity";
 }
+
 
 function wait(milliseconds) {
 
-```
-return new Promise(resolve => {
-    setTimeout(resolve, milliseconds);
-});
-```
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
 
 }
